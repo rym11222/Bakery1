@@ -1,4 +1,4 @@
-package com.example.demoBot.config;
+package com.example.demoBot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-
-import com.example.demoBot.service.TelegramBot;
 
 @Component
 public class BotInitializer {
@@ -23,7 +21,7 @@ public class BotInitializer {
             telegramBotsApi.registerBot(bot);
         }
         catch (TelegramApiException e){
-            System.out.println(e.toString());
+            
         }
     }
 

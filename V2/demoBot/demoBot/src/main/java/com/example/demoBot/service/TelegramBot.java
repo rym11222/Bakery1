@@ -1,18 +1,25 @@
 package com.example.demoBot.service;
 
+import org.jvnet.hk2.annotations.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import com.example.demoBot.config.BotConfig;
-
 @Component
+@Service
 public class TelegramBot extends TelegramLongPollingBot{
 
     BotConfig config;
 
+    @Autowired
+    public Dialogue dialogue;
+
+
+    
     public TelegramBot(BotConfig config){
         this.config = config;
     }
@@ -35,7 +42,10 @@ public class TelegramBot extends TelegramLongPollingBot{
 
             long chatId = update.getMessage().getChatId();
 
-            sendMessage(chatId, Dialogue.startDialogue(massageText));
+            //Dialogue dialogue = new Dialogue();
+
+            sendMessage(chatId, dialogue.startDialogue(massageText, chatId));
+            //sendMessage(chatId, dialogue.startDialogue(massageText));
 
         } 
 
@@ -51,7 +61,7 @@ public class TelegramBot extends TelegramLongPollingBot{
             execute(message);
         }
         catch (TelegramApiException e){
-            System.out.println(e.toString());
+
         }
 
     }
