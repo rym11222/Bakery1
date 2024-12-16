@@ -1,25 +1,32 @@
 package com.example.demoBot.service;
 
-//import com.example.demoBot.model.User;
 
-//import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demoBot.model.User;
+import com.example.demoBot.model.UserRepository;
 
 
-//@Service
+
+
 @Component
 public class BD {
 
 
     @Autowired
-    private UserRepository userRepository;
-    
+    public UserRepository userRepository;
 
+    public boolean checkContentID(Long chatId){
+        if (userRepository.findById(chatId).isEmpty())
+            return false;
+        else
+            return true;
+    }
+    
     public String registerUser(Long chatId, String[] Arr){
 
-        if (userRepository.findById(chatId).isEmpty()){
+        if (!(checkContentID(chatId))){
 
             
 

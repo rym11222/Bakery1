@@ -1,4 +1,4 @@
-package com.example.demoBot.service;
+package com.example.demoBot.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -27,9 +27,9 @@ public class Dialogue {
                 return Bakery.menu();
             case("/register"):
                 if (Arr.length < 4){
-                    return "Невверный формат ввода!";
+                    return "Невверный формат ввода! Правильно: /register [Имя] [Фамилия] [Номер телефона]";
                 }
-                //BD bd = new BD();
+                
                 return db.registerUser(chatId, Arr);
         
             default:
