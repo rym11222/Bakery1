@@ -42,8 +42,12 @@ public class Dialogue {
                 if (Arr.length < 4){
                     return "Невверный формат ввода! Правильно: /register [Имя] [Фамилия] [Номер телефона]";
                 }
-                
-                return db.registerUser(chatId, Arr);
+                boolean isRegistered = db.registerUser(chatId, Arr);
+                if (isRegistered) {
+                    return "Регистрация прошла успешно: пользователь " + Arr[1] + " " + Arr[2] + " добавлен.";
+                } else {
+                    return "Пользователь уже зарегестрирован.";
+                }
         
             default:
                 return "not recognized";
