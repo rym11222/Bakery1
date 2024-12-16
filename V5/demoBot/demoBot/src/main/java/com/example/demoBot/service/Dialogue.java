@@ -3,10 +3,13 @@ package com.example.demoBot.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demoBot.model.CompositionRepository;
+
 //import org.springframework.stereotype.Component;
 
 @Component
 public class Dialogue {
+
 
     @Autowired
     public BD db;

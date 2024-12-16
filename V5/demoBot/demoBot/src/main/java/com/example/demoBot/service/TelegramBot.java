@@ -2,18 +2,20 @@ package com.example.demoBot.service;
 
 
 
-
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.example.demoBot.config.BotConfig;
 import com.example.demoBot.model.AdsRepository;
+import com.example.demoBot.model.CompositionRepository;
 import com.example.demoBot.model.User;
 
 
@@ -22,6 +24,10 @@ import com.example.demoBot.model.User;
 public class TelegramBot extends TelegramLongPollingBot{
 
     BotConfig config;
+
+        
+    @Autowired
+    public CompositionRepository compositionRepository;
 
     @Autowired
     public Dialogue dialogue;
@@ -63,11 +69,54 @@ public class TelegramBot extends TelegramLongPollingBot{
                 }else{
                     sendMessage(chatId, "Невверный формат ввода! Правильно: /send [текст сообщения]");
                 }
+            }else if(massageText.equals("/composition")){   
+
+                composition(chatId);
+
             }else{
                 sendMessage(chatId, dialogue.startDialogue(massageText, chatId, config.getOwnerId()));
             }
 
-        } 
+        } else if (update.hasCallbackQuery()){
+            String callBackData = update.getCallbackQuery().getData();
+            long messageId = update.getCallbackQuery().getMessage().getMessageId();
+            long chatId = update.getCallbackQuery().getMessage().getChatId();
+
+            EditMessageText message = new EditMessageText();
+            message.setChatId(String.valueOf(chatId));
+            String text = compositionRepository.findById(callBackData).get().getComposition();
+            message.setText(text);
+            message.setMessageId((int)messageId);
+
+            try{
+                execute(message);
+            }
+            catch (TelegramApiException e){
+                System.out.println("Ошибка sendMessage");
+            }
+
+
+        }
+
+    }
+
+    private void composition(Long chatId){
+
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText("Состав какого блюда вы хотите узнать?");
+
+        InlineKeyboardMarkup markupInLine = new InlineKeyboardMarkup();
+        AutoKeyboard.autoKeyboard(markupInLine);
+
+        message.setReplyMarkup(markupInLine);
+
+        try{
+            execute(message);
+        }
+        catch (TelegramApiException e){
+            System.out.println("Ошибка sendMessage");
+        }
 
     }
 
