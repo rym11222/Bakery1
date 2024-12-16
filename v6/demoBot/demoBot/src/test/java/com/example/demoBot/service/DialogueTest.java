@@ -11,15 +11,15 @@ public class DialogueTest {
     @Test
     void stsrtDialogueTestSrart(){
         Dialogue dialogue = new Dialogue();
-        String answer = dialogue.startDialogue("/start", 123l, 123l);
-        Assertions.assertEquals("Это бот пекарни.\nОн может предоставить меню командой /menu\nВы можете зарегистрироваться с помощью командты /register для того, чтобы получать уведомления", answer);
+        String answer = dialogue.startDialogue("/start", 123l, 1234l);
+        Assertions.assertEquals("Это бот пекарни.\nОн может предоставить меню командой /menu\nВы можете зарегистрироваться с помощью команды /register для того, чтобы получать уведомления.\nВы можете узнать состав блюда с помощью команды /composition", answer);
     }
 
     @Test
     void stsrtDialogueTestHelp(){
         Dialogue dialogue = new Dialogue();
         String answer = dialogue.startDialogue("/help", 123l, 123l);
-        Assertions.assertEquals("Это бот пекарни.\nОн может предоставить меню командой /menu\nВы можете зарегистрироваться с помощью командты /register для того, чтобы получать уведомления", answer);
+        Assertions.assertEquals("Это бот пекарни.\nОн может предоставить меню командой /menu\nВы можете зарегистрироваться с помощью команды /register для того, чтобы получать уведомления.\nВы можете узнать состав блюда с помощью команды /composition\nВведите команту /send для отправки сообщения всмем пользователям", answer);
     }
 
     @Test
