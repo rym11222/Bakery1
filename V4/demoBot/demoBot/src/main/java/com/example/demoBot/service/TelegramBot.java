@@ -1,6 +1,7 @@
 package com.example.demoBot.service;
 
-//import java.util.Optional;
+
+
 
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.example.demoBot.config.BotConfig;
 import com.example.demoBot.model.AdsRepository;
-//import com.example.demoBot.model.Ads;
 import com.example.demoBot.model.User;
 
 
@@ -52,10 +52,20 @@ public class TelegramBot extends TelegramLongPollingBot{
 
             long chatId = update.getMessage().getChatId();
 
-            //Dialogue dialogue = new Dialogue();
-
-            sendMessage(chatId, dialogue.startDialogue(massageText, chatId));
-            //sendMessage(chatId, dialogue.startDialogue(massageText));
+            if (massageText.contains("/send") && chatId == config.getOwnerId()){
+                int i = massageText.indexOf(" ");
+                if (i != -1){
+                    massageText = massageText.substring(i);
+                    var users = dialogue.db.userRepository.findAll();
+                    for(User user : users){
+                        sendMessage(user.getChatId(), massageText);
+                    }
+                }else{
+                    sendMessage(chatId, "Невверный формат ввода! Правильно: /send [текст сообщения]");
+                }
+            }else{
+                sendMessage(chatId, dialogue.startDialogue(massageText, chatId, config.getOwnerId()));
+            }
 
         } 
 

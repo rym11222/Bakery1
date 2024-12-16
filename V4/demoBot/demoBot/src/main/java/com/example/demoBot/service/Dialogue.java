@@ -11,18 +11,28 @@ public class Dialogue {
     @Autowired
     public BD db;
 
-    public String startDialogue(String massage, Long chatId){
+    public String startDialogue(String massage, Long chatId, Long ownerId){
 
         
+
+        String ownerMsg = new String("\nВведите команту /send для отправки сообщения всмем пользователям");
 
         
 
         String [] Arr = massage.split(" ");
         switch (Arr[0]) {
             case ("/start"):
-                return Bakery.help();
+                if(chatId.equals(ownerId)){
+                    return Bakery.help() + ownerMsg;
+                }else{
+                    return Bakery.help();
+                }
             case ("/help"):
-                return Bakery.help();
+                if(chatId.equals(ownerId)){
+                    return Bakery.help() + ownerMsg;
+                }else{
+                    return Bakery.help();
+                }
             case ("/menu"):
                 return Bakery.menu();
             case("/register"):

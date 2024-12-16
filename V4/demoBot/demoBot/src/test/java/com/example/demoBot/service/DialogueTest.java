@@ -11,21 +11,21 @@ public class DialogueTest {
     @Test
     void stsrtDialogueTestSrart(){
         Dialogue dialogue = new Dialogue();
-        String answer = dialogue.startDialogue("/start", 123l);
+        String answer = dialogue.startDialogue("/start", 123l, 123l);
         Assertions.assertEquals("Это бот пекарни.\nОн может предоставить меню командой /menu\nВы можете зарегистрироваться с помощью командты /register для того, чтобы получать уведомления", answer);
     }
 
     @Test
     void stsrtDialogueTestHelp(){
         Dialogue dialogue = new Dialogue();
-        String answer = dialogue.startDialogue("/help", 123l);
+        String answer = dialogue.startDialogue("/help", 123l, 123l);
         Assertions.assertEquals("Это бот пекарни.\nОн может предоставить меню командой /menu\nВы можете зарегистрироваться с помощью командты /register для того, чтобы получать уведомления", answer);
     }
 
     @Test
     void stsrtDialogueTestMenu(){
         Dialogue dialogue = new Dialogue();
-        String answer = dialogue.startDialogue("/menu", 123l);
+        String answer = dialogue.startDialogue("/menu", 123l, 123l);
         Assertions.assertEquals("Завтраки:\r\n" + //
                         "Круассан с ветчиной и сыром\r\n" + //
                         "Французский тост с кленовым сиропом\r\n" + //
@@ -52,7 +52,7 @@ public class DialogueTest {
     @Test
     void registerTest(){
         Dialogue dialogue = new Dialogue();
-        String res = dialogue.startDialogue("/register", 123l);
+        String res = dialogue.startDialogue("/register", 123l, 123l);
         Assertions.assertEquals( "Невверный формат ввода! Правильно: /register [Имя] [Фамилия] [Номер телефона]", res);
 
     }
